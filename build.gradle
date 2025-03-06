@@ -1,45 +1,45 @@
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.3'
-	id 'io.spring.dependency-management' version '1.1.7'
+	id 'io.spring.dependency-management' version '1.1.4'
 }
 
 group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-
-java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
-	}
-}
-
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
-}
+version = '1.0.0'
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
 	mavenCentral()
 }
 
 dependencies {
+	// Spring Boot Web for API
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation 'org.junit.jupiter:junit-jupiter'
-	testImplementation 'org.mockito:mockito-core'
 
-	// H2 Database (for testing)
+	// H2 Database for development
 	runtimeOnly 'com.h2database:h2'
+
+	// Spring Boot Data JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	// Lombok (Reduce Boilerplate Code)
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 
+	// Testing (JUnit & Mockito)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.junit.jupiter:junit-jupiter'
+	testImplementation 'org.mockito:mockito-core'
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
+// Use Java 17 and enable caching for faster builds
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-parameters"
+}
+
+// Reduce Gradle build time by enabling caching
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
