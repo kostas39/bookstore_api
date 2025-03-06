@@ -8,6 +8,6 @@ class BookstoreApiApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// This test simply checks if the application context loads correctly
 	}
-
 }
